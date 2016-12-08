@@ -34,7 +34,7 @@ if(!(Test-Path -Path "$target\node_modules")) {
 	}
 
     # check if module has been downloaded
-    if(!(Test-Path -Path "$target")) {
+    if((Test-Path -Path "$target")) {
         Invoke-WebRequest "http://raw.githubusercontent.com/mjromper/qlik-auth-office365/master/service.js" -OutFile "$target\service.js"
         Invoke-WebRequest "http://raw.githubusercontent.com/mjromper/qlik-auth-office365/master/o365.js" -OutFile "$target\o365.js"
         Invoke-WebRequest "http://raw.githubusercontent.com/mjromper/qlik-auth-office365/master/package.json" -OutFile "$target\package.json"
