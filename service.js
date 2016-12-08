@@ -49,12 +49,32 @@ app.get('/oauth2callback', function ( req, res ) {
 
             o365.getUserId( accessToken, function( err, userId ) {
                 if ( !err && userId ) {
+
+                    o365.getUserGroups( accessToken, function( err, groups ) {
+
+                        if (err) {
+                           res.send( { "error": err } );
+                           return;
+                        }
+
+                        var attributes = groups.value.map( function(g) {
+                            return {"Group": g.displayName};
+                        } );
+
+                        qlikAuth.requestTicket(req, res, {
+                            'UserDirectory': settings.directory,
+                            'UserId': userId,
+                            'Attributes': attributes
+                        });
+                    } );
+
                     //Make call for ticket request
+                    /*
                     qlikAuth.requestTicket(req, res, {
                         'UserDirectory': settings.directory,
                         'UserId': userId,
                         'Attributes': []
-                    });
+                    });*/
                 } else {
                     res.send( { "error": err } );
                 }

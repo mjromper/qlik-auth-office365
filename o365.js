@@ -5,7 +5,7 @@ var endpoint = {
     "authority": "https://login.microsoftonline.com/common",
     "authorize_endpoint": "/oauth2/v2.0/authorize",
     "token_endpoint": "/oauth2/v2.0/token",
-    "scope": "user.read offline_access",
+    "scope": "user.read directory.read.all offline_access",
 
     "state": "o3651234abcd",
     "redirectUriPath": "/oauth2callback",
@@ -97,14 +97,43 @@ function getAuthUrl( reqUrl, settings ) {
  * @param {string} accessToken
  * @param {Callback} callback The callback function.
  */
+function getUserGroups( accessToken, callback ) {
+    _request( {
+        path: "/v1.0/me/memberOf",
+        headers: { "Authorization": "Bearer " + accessToken },
+    }, function( err, response ) {
+        if ( err ) {
+            callback(err, null);
+        } else {
+            callback( null, response );
+        }
+    } );
+}
+
 function getUserId( accessToken, callback ) {
-    var options = {
-        host: endpoint.graphUri,
-        method: "GET",
+    _request( {
         path: "/v1.0/me",
         headers: { "Authorization": "Bearer " + accessToken },
-        agent: false
-    };
+    }, function( err, response ) {
+        if ( err ) {
+            callback(err, null);
+        } else {
+            callback( null, response.userPrincipalName );
+        }
+    } );
+}
+
+/**
+ * Gets userId from user data in Office 365.
+ * @param {string} accessToken
+ * @param {Callback} callback The callback function.
+ */
+function _request( options, callback ) {
+
+    options.host = options.host || endpoint.graphUri;
+    options.agent = options.agent || false;
+    options.method = options.method || "GET";
+
     var req = https.request (options, function( response ) {
         var str = ''
         response.on( 'data', function (chunk) {
@@ -112,7 +141,7 @@ function getUserId( accessToken, callback ) {
         });
 
         response.on( 'end', function () {
-            callback( null, JSON.parse(str).userPrincipalName );
+            callback( null, JSON.parse(str) );
         } );
     } );
     req.on( 'error', function (err) {
@@ -142,6 +171,7 @@ function _guid() {
 
 // ------ LIB exports ------- //
 exports.getUserId = getUserId;
+exports.getUserGroups = getUserGroups;
 exports.getAuthUrl = getAuthUrl;
 exports.getTokenFromCode = getTokenFromCode;
 exports.getTokenFromRefreshToken = getTokenFromRefreshToken;
