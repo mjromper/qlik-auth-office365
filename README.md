@@ -2,9 +2,6 @@
 
 Qlik Sense NodeJs module to authenticate with Office 365 in Qlik Sense.
 
-# Qlik-Auth-Office365
-
-Qlik Sense NodeJs module to authenticate with Office 365 in Qlik Sense.
 ## Setup step by step
 ---
 ### Microsoft Office 365 Application
