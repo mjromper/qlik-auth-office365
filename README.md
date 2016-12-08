@@ -22,14 +22,14 @@ Qlik Sense NodeJs module to authenticate with Office 365 in Qlik Sense.
 
 ### Installation of this module
 
-1. Launch PowerShell in Administrator mode (right-click and select Run As Administrator)
-2. Create and change directory to an empty directory, i.e. C:\TempO365
+* Launch PowerShell in Administrator mode (right-click and select Run As Administrator)
+* Create and change directory to an empty directory, i.e. C:\TempO365
 
 ```powershell
     mkdir \TempO365; cd \TempO365
 ```
 
-3. Enter the below command exactly as it is (including parentheses):
+* Enter the below command exactly as it is (including parentheses):
 
 ```powershell
     (Invoke-WebRequest "https://raw.githubusercontent.com/mjromper/qlik-auth-office365/master/setup.ps1" -OutFile setup.ps1) | .\setup.ps1
@@ -49,7 +49,7 @@ Client Secret []: enter your **client_secret** value
 - ***port***: *the same used for the redirect URI at the Microsoft Application Registration Portal*
 - ***directory***: *give a name for the Directory in Qlik Sense where you users will be authorized*
 
-4. Restart Qlik ServiceDispacher service.
+When the script is finished you need to restart Qlik ServiceDispacher service.
 
 ### Qlik Sense Virtual Proxy
 1. Create a new Virtual Proxy in QMC
