@@ -14,7 +14,7 @@ $Host.UI.RawUI.BackgroundColor = "Black"
 Clear-Host
 
 # define some variables
-$temp="c:\Temp\Office365AuthSetup-yFH4gu"
+$temp="c:\TempO365\Office365AuthSetup-yFH4gu"
 $npm="npm-1.4.12.zip"
 $config="c:\Program Files\Qlik\Sense\ServiceDispatcher"
 $target="$config\Node\Office365-Auth"
