@@ -2,7 +2,12 @@
 
 Qlik Sense NodeJs module to authenticate with Office 365 in Qlik Sense.
 
-### Setup Office 365 Application - Step by Step
+# Qlik-Auth-Office365
+
+Qlik Sense NodeJs module to authenticate with Office 365 in Qlik Sense.
+## Setup step by step
+---
+### Microsoft Office 365 Application
 1. Go to Microsoft Application Registration Portal, Login and Create a new Application https://apps.dev.microsoft.com/ You'll be given an Application Id. This will be your **client_id**. Copy it somewhere for later.
 ![](https://github.com/mjromper/qlik-auth-office365/raw/master/docs/images/createapp.png)
 2. Generate a new password for this application. This will be the **client_secret**. Copy it somewhere when presented as you won't be able to see it again.
@@ -12,7 +17,7 @@ Qlik Sense NodeJs module to authenticate with Office 365 in Qlik Sense.
 4. Save your changes.
 ![](https://github.com/mjromper/qlik-auth-office365/raw/master/docs/images/saveconfig.png)
 
-### Virtual Proxy
+### Qlik Sense Virtual Proxy
 1. Create a new Virtual Proxy in QMC
 2. For Authentication module redirect URI enter the same servername and port you used for Authorized redirect URI in the Application Registration Portal.
 ![](https://github.com/mjromper/qlik-auth-office365/raw/master/docs/images/virtual-proxy.png)
