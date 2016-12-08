@@ -5,7 +5,26 @@ var express = require('express'),
     qlikAuth = require('qlik-auth'),
     o365 = require('./o365.js');
 
-var settings = require('./settings.json');
+var settings = {};
+var arg = process.argv.slice(2);
+
+arg.forEach( function(a) {
+    var key = a.split("=");
+    switch( key[0] ) {
+      case "user_directory":
+        settings.directory = key[1];
+        break;
+      case "client_id":
+        settings.client_id = key[1];
+        break;
+      case "client_secret":
+        settings.client_secret = key[1];
+        break;
+      case "auth_port":
+        settings.port = key[1];
+        break;
+  }
+} );
 
 app.get('/', function ( req, res ) {
     //Init sense auth module
@@ -13,7 +32,7 @@ app.get('/', function ( req, res ) {
     //Redirect to Office 365 Auth url
 
     var hostUrl = req.protocol+"://"+req.get('host');
-    res.redirect( o365.getAuthUrl(hostUrl) );
+    res.redirect( o365.getAuthUrl(hostUrl, settings) );
 });
 
 
@@ -21,7 +40,7 @@ app.get('/oauth2callback', function ( req, res ) {
 
     if ( req.query.code !== undefined && req.query.state !== undefined ) {
         var hostUrl = req.protocol+"://"+req.get('host');
-        o365.getTokenFromCode( req.query.code, req.query.state, hostUrl, function ( e, accessToken, refreshToken ) {
+        o365.getTokenFromCode( req.query.code, req.query.state, hostUrl, settings, function ( e, accessToken, refreshToken ) {
             if ( e ) {
                 res.send( { "error": e } );
                 return;

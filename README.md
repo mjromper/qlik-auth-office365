@@ -22,7 +22,7 @@ Qlik Sense NodeJs module to authenticate with Office 365 in Qlik Sense.
 
 ### Qlik Sense Virtual Proxy
 1. Create a new Virtual Proxy in QMC
-2. For Authentication module redirect URI enter the same servername and port you used for Authorized redirect URI in the Application Registration Portal.
+2. For Authentication module redirect URI enter the same ***servername*** and ***port*** you used for Authorized redirect URI in the Application Registration Portal.
 
 ![](https://github.com/mjromper/qlik-auth-office365/raw/master/docs/images/virtual-proxy.png)
 3. Finish the Virtual Proxy configuration.

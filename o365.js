@@ -1,7 +1,6 @@
 var OAuth = require('oauth'),
     https = require('https');
 
-var settings = require('./settings.json');
 var endpoint = {
     "authority": "https://login.microsoftonline.com/common",
     "authorize_endpoint": "/oauth2/v2.0/authorize",
@@ -18,7 +17,7 @@ var endpoint = {
  * @param {string} code An authorization code returned from a client.
  * @param {AcquireTokenCallback} callback The callback function.
  */
-function getTokenFromCode( code, state, reqUrl, callback ) {
+function getTokenFromCode( code, state, reqUrl, settings, callback ) {
 
     var redirectUri = reqUrl + endpoint.redirectUriPath;
 
@@ -52,7 +51,7 @@ function getTokenFromCode( code, state, reqUrl, callback ) {
  *                       from a previous result of an authentication flow.
  * @param {AcquireTokenCallback} callback The callback function.
  */
-function getTokenFromRefreshToken( refreshToken, reqUrl, callback ) {
+function getTokenFromRefreshToken( refreshToken, reqUrl, settings, callback ) {
     var redirectUri = reqUrl + endpoint.redirectUriPath;
     var OAuth2 = OAuth.OAuth2;
     var oauth2 = new OAuth2(
@@ -81,7 +80,7 @@ function getTokenFromRefreshToken( refreshToken, reqUrl, callback ) {
 /**
  * Gets office 365 login url
  */
-function getAuthUrl( reqUrl ) {
+function getAuthUrl( reqUrl, settings ) {
     var redirectUri = reqUrl + endpoint.redirectUriPath;
     return endpoint.authority + endpoint.authorize_endpoint +
         "?response_type=code" +

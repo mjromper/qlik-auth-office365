@@ -1,6 +1,0 @@
-{
-	"client_id": "YOUR APPPLICATION ID",
-	"client_secret": "YOUR APPPLICATION PASSWORD",
-	"directory": "Office365",
-	"port": 5555
-}
