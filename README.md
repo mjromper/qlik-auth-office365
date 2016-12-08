@@ -23,7 +23,10 @@ Qlik Sense NodeJs module to authenticate with Office 365 in Qlik Sense.
 ### Installation of this module
 
 1. Launch PowerShell in Administrator mode (right-click and select Run As Administrator)
-2. Change directory to an empty directory, i.e. C:\Temp, (enter cd \Temp)
+2. Create and change directory to an empty directory, i.e. C:\TempO365
+ ```powershell
+    mkdir \TempO365; cd \TempO365
+```
 3. Enter the below command exactly as it is (including parentheses):
 
 ```powershell
@@ -48,7 +51,7 @@ Client Secret []: enter your **client_secret** value
 2. For Authentication module redirect URI enter the same ***servername*** and ***port*** you used for Authorized redirect URI in the Application Registration Portal.
 
 ![](https://github.com/mjromper/qlik-auth-office365/raw/master/docs/images/virtual-proxy.png)
-3. Finish the Virtual Proxy configuration. The proxy will restart and the new module should be good to go!.
+3. Finish the Virtual Proxy configuration. The proxy will restart and the new module should be good to go!. Open the url https://your_sense_server_host/o365 (where 'o365' is the prefix of virtual proxy)
 
 ### Todos
  - Write Tests
