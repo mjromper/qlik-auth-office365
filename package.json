@@ -19,10 +19,10 @@
     ],
     "repository": {
         "type": "git",
-        "url": ""
+        "url": "https://github.com/mjromper/qlik-auth-office365"
     },
-    "homepage": "",
+    "homepage": "https://github.com/mjromper/qlik-auth-office365",
     "bugs": {
-        "url": ""
+        "url": "https://github.com/mjromper/qlik-auth-office365/issues"
     }
 }
