@@ -28,6 +28,7 @@ Qlik Sense NodeJs module to authenticate with Office 365 in Qlik Sense.
 ```powershell
     mkdir \TempO365; cd \TempO365
 ```
+
 3. Enter the below command exactly as it is (including parentheses):
 
 ```powershell
@@ -37,12 +38,14 @@ Qlik Sense NodeJs module to authenticate with Office 365 in Qlik Sense.
 This will download and execute the setup script.
 
 When the downloading and installation of the modules including their dependencies are finished you will be prompted for some configuration options.
+
 ```
 Enter name of user directory [OFFICE365]:
 Enter port [5555]:
 Application ID []: enter your **client_id** value
 Client Secret []: enter your **client_secret** value
 ```
+
 - ***port***: *the same used for the redirect URI at the Microsoft Application Registration Portal*
 - ***directory***: *give a name for the Directory in Qlik Sense where you users will be authorized*
 
