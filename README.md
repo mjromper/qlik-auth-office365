@@ -45,6 +45,7 @@ Client Secret []: enter your **client_secret** value
 ```
 - ***port***: *the same used for the redirect URI at the Microsoft Application Registration Portal*
 - ***directory***: *give a name for the Directory in Qlik Sense where you users will be authorized*
+
 4. Restart Qlik ServiceDispacher service.
 
 ### Qlik Sense Virtual Proxy
