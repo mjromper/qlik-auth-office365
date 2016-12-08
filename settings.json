@@ -1,7 +1,6 @@
 {
 	"client_id": "YOUR APPPLICATION ID",
 	"client_secret": "YOUR APPPLICATION PASSWORD",
-	"redirect_uri": "https://your_sense_server_host:5555/oauth2callback",
 	"directory": "Office365",
 	"port": 5555
 }

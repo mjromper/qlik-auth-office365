@@ -11,14 +11,17 @@ app.get('/', function ( req, res ) {
     //Init sense auth module
     qlikAuth.init(req, res);
     //Redirect to Office 365 Auth url
-    res.redirect( o365.getAuthUrl() );
+
+    var hostUrl = req.protocol+"://"+req.get('host');
+    res.redirect( o365.getAuthUrl(hostUrl) );
 });
 
 
 app.get('/oauth2callback', function ( req, res ) {
 
     if ( req.query.code !== undefined && req.query.state !== undefined ) {
-        o365.getTokenFromCode( req.query.code, req.query.state, function ( e, accessToken, refreshToken ) {
+        var hostUrl = req.protocol+"://"+req.get('host');
+        o365.getTokenFromCode( req.query.code, req.query.state, hostUrl, function ( e, accessToken, refreshToken ) {
             if ( e ) {
                 res.send( { "error": e } );
                 return;

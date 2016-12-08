@@ -7,7 +7,9 @@ var endpoint = {
     "authorize_endpoint": "/oauth2/v2.0/authorize",
     "token_endpoint": "/oauth2/v2.0/token",
     "scope": "user.read offline_access",
+
     "state": "o3651234abcd",
+    "redirectUriPath": "/oauth2callback",
     "graphUri": "graph.microsoft.com"
 };
 
@@ -16,7 +18,9 @@ var endpoint = {
  * @param {string} code An authorization code returned from a client.
  * @param {AcquireTokenCallback} callback The callback function.
  */
-function getTokenFromCode( code, state, callback ) {
+function getTokenFromCode( code, state, reqUrl, callback ) {
+
+    var redirectUri = reqUrl + endpoint.redirectUriPath;
 
     var OAuth2 = OAuth.OAuth2;
     var oauth2 = new OAuth2(
@@ -31,7 +35,7 @@ function getTokenFromCode( code, state, callback ) {
         code,
         {
             grant_type: 'authorization_code',
-            redirect_uri: settings.redirect_uri,
+            redirect_uri: redirectUri,
             response_mode: 'form_post',
             nonce: _guid(),
             state: state
@@ -48,7 +52,8 @@ function getTokenFromCode( code, state, callback ) {
  *                       from a previous result of an authentication flow.
  * @param {AcquireTokenCallback} callback The callback function.
  */
-function getTokenFromRefreshToken( refreshToken, callback ) {
+function getTokenFromRefreshToken( refreshToken, reqUrl, callback ) {
+    var redirectUri = reqUrl + endpoint.redirectUriPath;
     var OAuth2 = OAuth.OAuth2;
     var oauth2 = new OAuth2(
         settings.client_id,
@@ -62,7 +67,7 @@ function getTokenFromRefreshToken( refreshToken, callback ) {
         refreshToken,
         {
             grant_type: 'refresh_token',
-            redirect_uri: settings.redirect_uri,
+            redirect_uri: redirectUri,
             response_mode: 'form_post',
             nonce: _guid(),
             state: endpoint.state
@@ -76,11 +81,12 @@ function getTokenFromRefreshToken( refreshToken, callback ) {
 /**
  * Gets office 365 login url
  */
-function getAuthUrl() {
+function getAuthUrl( reqUrl ) {
+    var redirectUri = reqUrl + endpoint.redirectUriPath;
     return endpoint.authority + endpoint.authorize_endpoint +
         "?response_type=code" +
         "&client_id=" + settings.client_id +
-        "&redirect_uri=" + settings.redirect_uri +
+        "&redirect_uri=" + redirectUri +
         "&scope=" + endpoint.scope +
         "&response_mode=query" +
         "&nonce=" + _guid() +

@@ -12,7 +12,7 @@ Qlik Sense NodeJs module to authenticate with Office 365 in Qlik Sense.
 ![](https://github.com/mjromper/qlik-auth-office365/raw/master/docs/images/createapp.png)
 2. Generate a new password for this application. This will be the **client_secret**. Copy it somewhere when presented as you won't be able to see it again.
 ![](https://github.com/mjromper/qlik-auth-office365/raw/master/docs/images/generatepassword.png)
-3. Add "Web" as the Platform and set the redirect url https://host_sense_server:5555/oauth2callback
+3. Add "Web" as the Platform and set the redirect url https://your_sense_server_host:5555/oauth2callback
 ![](https://github.com/mjromper/qlik-auth-office365/raw/master/docs/images/webapplicationredirect.png)
 4. Save your changes.
 ![](https://github.com/mjromper/qlik-auth-office365/raw/master/docs/images/saveconfig.png)
@@ -32,7 +32,6 @@ You need Gulp installed globally:
 {
 	"client_id": "YOUR APPPLICATION ID",
 	"client_secret": "YOUR APPPLICATION PASSWORD",
-	"redirect_uri": "https://your_sense_server_host:5555/oauth2callback",
 	"directory": "Office365",
 	"port": 5555
 }
