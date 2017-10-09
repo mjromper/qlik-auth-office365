@@ -37,13 +37,23 @@ This will download and execute the setup script.
 When the downloading and installation of the modules including their dependencies are finished you will be prompted for some configuration options.
 
 ```
-Enter name of user directory (prefix) [office365]: <any single word is valid, default 'office365'>
-Enter QS hostname []: <ie: yourqliksenseserver.domain.com, just hostname, not complete url>
-Enter certificates folder path: [C:/ProgramData/Qlik/Sense/Repository/Exported Certificates/.Local Certificates]: <certificates location, so this module uses https>
-Enter port [5555]: <port this module runs on>
-Application ID []: <Office 365 application id>
-Client Secret []: <Office 365 client secret>
+Enter name of user directory (prefix) [office365]:
+<any single word is valid, default: 'office365'>
 
+Enter QS hostname []:
+<enter Qlik Sense hostname, ie: yourqliksenseserver.domain.com. Just hostname, not complete url>
+
+Enter certificates folder path: [C:/ProgramData/Qlik/Sense/Repository/Exported Certificates/.Local Certificates]:
+<certificates location, so that this module uses https, default: same self sign certificates of Qlik Sense>
+
+Enter port [5555]:
+<enter port this module will run on, default: 5555>
+
+Application ID []:
+<enter Office 365 application id>
+
+Client Secret []:
+<enter Office 365 client secret>
 ```
 
 - ***port***: *the same used for the redirect URI at the Microsoft Application Registration Portal*
