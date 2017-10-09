@@ -93,7 +93,7 @@ function getAuthUrl( reqUrl, config ) {
 }
 
 /**
- * Gets userId from user data in Office 365.
+ * Gets user Groups from user data in Office 365.
  * @param {string} accessToken
  * @param {Callback} callback The callback function.
  */
@@ -110,7 +110,12 @@ function getUserGroups( accessToken, callback ) {
     } );
 }
 
-function getUserId( accessToken, callback ) {
+/**
+ * Gets userId from user data in Office 365.
+ * @param {string} accessToken
+ * @param {Callback} callback The callback function.
+ */
+function getUser( accessToken, callback ) {
     _request( {
         path: "/v1.0/me",
         headers: { "Authorization": "Bearer " + accessToken },
@@ -123,11 +128,6 @@ function getUserId( accessToken, callback ) {
     } );
 }
 
-/**
- * Gets userId from user data in Office 365.
- * @param {string} accessToken
- * @param {Callback} callback The callback function.
- */
 function _request( options, callback ) {
 
     options.host = options.host || endpoint.graphUri;
@@ -170,7 +170,7 @@ function _guid() {
 
 
 // ------ LIB exports ------- //
-exports.getUserId = getUserId;
+exports.getUser = getUser;
 exports.getUserGroups = getUserGroups;
 exports.getAuthUrl = getAuthUrl;
 exports.getTokenFromCode = getTokenFromCode;

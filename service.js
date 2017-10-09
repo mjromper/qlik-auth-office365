@@ -50,7 +50,7 @@ app.get('/oauth2callback', function ( req, res ) {
             }
 
 
-            o365.getUserId( accessToken, function( err, user ) {
+            o365.getUser( accessToken, function( err, user ) {
                 if ( !err && user ) {
 
                     o365.getUserGroups( accessToken, function( err, groups ) {
