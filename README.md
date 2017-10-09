@@ -38,7 +38,7 @@ When the downloading and installation of the modules including their dependencie
 
 ```
 Enter name of user directory (prefix) [office365]: <any single word is valid, default 'office365'>
-Enter QS hostname []: <ie: yourqliksenseserver.domain.com, just hostname, not comple url>
+Enter QS hostname []: <ie: yourqliksenseserver.domain.com, just hostname, not complete url>
 Enter certificates folder path: [C:/ProgramData/Qlik/Sense/Repository/Exported Certificates/.Local Certificates]: <certificates location, so this module uses https>
 Enter port [5555]: <port this module runs on>
 Application ID []: <Office 365 application id>
