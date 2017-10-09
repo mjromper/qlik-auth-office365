@@ -51,7 +51,7 @@ app.get('/oauth2callback', function ( req, res ) {
 
 
             o365.getUserId( accessToken, function( err, user ) {
-                if ( !err && userId ) {
+                if ( !err && user ) {
 
                     o365.getUserGroups( accessToken, function( err, groups ) {
 
@@ -77,7 +77,7 @@ app.get('/oauth2callback', function ( req, res ) {
                     /*
                     qlikAuth.requestTicket(req, res, {
                         'UserDirectory': config.prefix,
-                        'UserId': userId,
+                        'UserId': user.userPrincipalName,
                         'Attributes': []
                     });*/
                 } else {
