@@ -17,14 +17,14 @@ var endpoint = {
  * @param {string} code An authorization code returned from a client.
  * @param {AcquireTokenCallback} callback The callback function.
  */
-function getTokenFromCode( code, state, reqUrl, settings, callback ) {
+function getTokenFromCode( code, state, reqUrl, config, callback ) {
 
     var redirectUri = reqUrl + endpoint.redirectUriPath;
 
     var OAuth2 = OAuth.OAuth2;
     var oauth2 = new OAuth2(
-        settings.client_id,
-        settings.client_secret,
+        config.office365.client_id,
+        config.office365.client_secret,
         endpoint.authority,
         endpoint.authorize_endpoint,
         endpoint.token_endpoint
@@ -51,12 +51,12 @@ function getTokenFromCode( code, state, reqUrl, settings, callback ) {
  *                       from a previous result of an authentication flow.
  * @param {AcquireTokenCallback} callback The callback function.
  */
-function getTokenFromRefreshToken( refreshToken, reqUrl, settings, callback ) {
+function getTokenFromRefreshToken( refreshToken, reqUrl, config, callback ) {
     var redirectUri = reqUrl + endpoint.redirectUriPath;
     var OAuth2 = OAuth.OAuth2;
     var oauth2 = new OAuth2(
-        settings.client_id,
-        settings.client_secret,
+        config.office365.client_id,
+        config.office365.client_secret,
         endpoint.authority,
         endpoint.authorize_endpoint,
         endpoint.token_endpoint
@@ -80,11 +80,11 @@ function getTokenFromRefreshToken( refreshToken, reqUrl, settings, callback ) {
 /**
  * Gets office 365 login url
  */
-function getAuthUrl( reqUrl, settings ) {
+function getAuthUrl( reqUrl, config ) {
     var redirectUri = reqUrl + endpoint.redirectUriPath;
     return endpoint.authority + endpoint.authorize_endpoint +
         "?response_type=code" +
-        "&client_id=" + settings.client_id +
+        "&client_id=" + config.office365.client_id +
         "&redirect_uri=" + redirectUri +
         "&scope=" + endpoint.scope +
         "&response_mode=query" +
@@ -118,7 +118,7 @@ function getUserId( accessToken, callback ) {
         if ( err ) {
             callback(err, null);
         } else {
-            callback( null, response.userPrincipalName );
+            callback( null, response );
         }
     } );
 }

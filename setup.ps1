@@ -15,31 +15,43 @@ Clear-Host
 
 # define some variables
 $temp="c:\TempO365\Office365AuthSetup-yFH4gu"
-$npm="npm-1.4.12.zip"
+$npm="npm-1.4.9.zip"
 $config="c:\Program Files\Qlik\Sense\ServiceDispatcher"
 $target="$config\Node\Office365-Auth"
+$moduleName="qlik-auth-office365"
+
 
 # check if module is installed
-if(!(Test-Path -Path "$target\node_modules")) {
+# if(!(Test-Path -Path "$target\node_modules")) {
 
-    $confirm = Read-Host "This script will install the Office 365 Auth module, do you want to proceed? [Y/n]"
+    $confirm = Read-Host "This script will install the Office365 Auth module for Qlik Sense, do you want to proceed? [Y/n]"
     if ($confirm -eq 'n') {
       Break
     }
 
     # check if npm has been downloaded already
-	if(!(Test-Path -Path "$temp\$npm")) {
+    if(!(Test-Path -Path "$temp\$npm")) {
         New-Item -Path "$temp" -Type directory -force | Out-Null
-		Invoke-WebRequest "http://nodejs.org/dist/npm/$npm" -OutFile "$temp\$npm"
-	}
+        Invoke-WebRequest "http://nodejs.org/dist/npm/$npm" -OutFile "$temp\$npm"
+    }
+
+    New-Item -Path "$target" -Type directory -force | Out-Null
+    New-Item -Path "$temp" -Type directory -force | Out-Null
+
+    # Installing Qlik-CLI
+    Write-Host "Downloading Qlik-Cli from Github and importing the Module"
+    Invoke-WebRequest "https://raw.githubusercontent.com/ahaydon/Qlik-Cli/master/Qlik-Cli.psm1" -OutFile $temp\Qlik-Cli.psm1
+    New-Item -ItemType directory -Path C:\Windows\System32\WindowsPowerShell\v1.0\Modules\Qlik-Cli -force
+    Move-Item $temp\Qlik-Cli.psm1 C:\Windows\System32\WindowsPowerShell\v1.0\Modules\Qlik-Cli\ -force
+    Import-Module Qlik-Cli.psm1
 
     # check if module has been downloaded
-    if(!(Test-Path -Path "$target\src")) {
-        New-Item -Path "$target\src" -Type directory | Out-Null
-        Invoke-WebRequest "http://raw.githubusercontent.com/mjromper/qlik-auth-office365/master/service.js" -OutFile "$target\service.js"
-        Invoke-WebRequest "http://raw.githubusercontent.com/mjromper/qlik-auth-office365/master/o365.js" -OutFile "$target\o365.js"
-        Invoke-WebRequest "http://raw.githubusercontent.com/mjromper/qlik-auth-office365/master/package.json" -OutFile "$target\package.json"
-    }
+    # if(!(Test-Path -Path "$target")) {
+        Write-Host "Extracting Office365 auth module..."
+        Invoke-WebRequest "https://github.com/mjromper/$moduleName/archive/master.zip" -OutFile "$temp\$moduleName-master.zip"
+        Expand-Archive -LiteralPath $temp\$moduleName-master.zip -DestinationPath $temp -Force
+        Copy-Item $temp\$moduleName-master\* $target -Force -Recurse
+    # }
 
     # check if npm has been unzipped already
     if(!(Test-Path -Path "$temp\node_modules")) {
@@ -49,17 +61,17 @@ if(!(Test-Path -Path "$target\node_modules")) {
     }
 
     # install module with dependencies
-	Write-Host "Installing modules..."
+    Write-Host "Installing modules..."
     Push-Location "$target"
     $env:Path=$env:Path + ";$config\Node"
-	&$temp\npm.cmd config set spin=false
-	&$temp\npm.cmd --prefix "$target" install
+    &$temp\npm.cmd config set spin=false
+    &$temp\npm.cmd --prefix "$target" install
     Pop-Location
 
     # cleanup temporary data
     Write-Host $nl"Removing temporary files..."
     Remove-Item $temp -recurse
-}
+#}
 
 function Read-Default($text, $defaultValue) { $prompt = Read-Host "$($text) [$($defaultValue)]"; return ($defaultValue,$prompt)[[bool]$prompt]; }
 
@@ -90,7 +102,7 @@ client_secret=
 Write-Host $nl"CONFIGURE MODULE"
 Write-Host $nl"To make changes to the configuration in the future just re-run this script."
 
-$user_directory=Read-Default $nl"Enter name of user directory" "OFFICE365"
+$user_directory=Read-Default $nl"Enter name of user directory (prefix)" "OFFICE365"
 $auth_port=Read-Default $nl"Enter port" "5555"
 $client_id=Read-Default $nl"Application ID" $client_id
 $client_secret=Read-Default $nl"Client Secret" $client_secret
@@ -113,4 +125,28 @@ Set-Config -file "$config\services.conf" -key "auth_port" -value $auth_port
 Set-Config -file "$config\services.conf" -key "client_id" -value $client_id
 Set-Config -file "$config\services.conf" -key "client_secret" -value $client_secret
 
-Write-Host $nl"Done! Please restart the 'Qlik Sense Service Dispatcher' service for changes to take affect."$nl
+
+
+# Adding/updating virtual proxy
+$VPId=$(Get-QlikVirtualProxy -filter "description eq '$user_directory'")
+if ( !$VPId ) {
+    Write-Host "Creating Virtual Proxy"
+    New-QlikVirtualProxy -prefix $($user_directory) -description $($user_directory) -authUri http://$($qlik_sense_hostname):$($auth_port)/authenticate -sessionCookieHeaderName X-Qlik-Session-$($user_directory) -loadBalancingServerNodes $(Get-QlikNode).id -websocketCrossOriginWhiteList $($qlik_sense_hostname)
+    $VPId=$(Get-QlikVirtualProxy -filter "description eq '$user_directory'")
+} else {
+    Write-Host "Updating Virtual proxy"
+    Update-QlikVirtualProxy -id $VPId.id -description $($user_directory) -authUri http://$($qlik_sense_hostname):$($auth_port)/authenticate -sessionCookieHeaderName X-Qlik-Session-$($user_directory) -loadBalancingServerNodes $(Get-QlikNode).id -websocketCrossOriginWhiteList $($qlik_sense_hostname)
+}
+Add-QlikProxy -ProxyId $(Get-QlikProxy).id -VirtualProxyId $VPId.id
+
+
+
+# Restart ServiceDipatcher
+Write-Host $nl"Restarting ServiceDispatcher.."
+net stop QlikSenseServiceDispatcher
+start-sleep 5
+net start QlikSenseServiceDispatcher
+Write-Host $nl"Done! 'Qlik Sense Service Dispatcher' restarted."$nl
+Write-Host $nl"Done! Latch Auth module installed."$nl
+
+Write-Host $nl"Access Qlik Sense through virtual proxy $user_directory."$nl
