@@ -91,6 +91,8 @@ Script=Node\office365-auth\service.js
 
 [office365-auth.parameters]
 user_directory=
+qlik_sense_hostname=
+certificates_path=
 auth_port=
 client_id=
 client_secret=
@@ -103,6 +105,8 @@ Write-Host $nl"CONFIGURE MODULE"
 Write-Host $nl"To make changes to the configuration in the future just re-run this script."
 
 $user_directory=Read-Default $nl"Enter name of user directory (prefix)" "OFFICE365"
+$qlik_sense_hostname=Read-Default $nl"Enter QS hostname (just hostname, not entire URL)" $qlik_sense_hostname
+$certificates_path=Read-Default $nl"Enter certificates folder path:" "C:/ProgramData/Qlik/Sense/Repository/Exported Certificates/.Local Certificates"
 $auth_port=Read-Default $nl"Enter port" "5555"
 $client_id=Read-Default $nl"Application ID" $client_id
 $client_secret=Read-Default $nl"Client Secret" $client_secret
@@ -121,6 +125,8 @@ function Set-Config( $file, $key, $value )
 # write changes to configuration file
 Write-Host $nl"Updating configuration..."
 Set-Config -file "$config\services.conf" -key "user_directory" -value $user_directory
+Set-Config -file "$config\services.conf" -key "qlik_sense_hostname" -value $qlik_sense_hostname
+Set-Config -file "$config\services.conf" -key "certificates_path" -value $certificates_path
 Set-Config -file "$config\services.conf" -key "auth_port" -value $auth_port
 Set-Config -file "$config\services.conf" -key "client_id" -value $client_id
 Set-Config -file "$config\services.conf" -key "client_secret" -value $client_secret

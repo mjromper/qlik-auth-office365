@@ -14,6 +14,9 @@ arg.forEach( function(a) {
       case "user_directory":
         config.prefix = key[1];
         break;
+      case "certificates_path":
+        config.certPath = key[1];
+        break;
       case "client_id":
         config.office365.client_id = key[1];
         break;
@@ -88,8 +91,8 @@ app.get('/oauth2callback', function ( req, res ) {
 });
 
 var options = {
-    key: fs.readFileSync( config.certificates.client_key ),
-    cert: fs.readFileSync( config.certificates.client ),
+    key: fs.readFileSync( config.certificates().client_key ),
+    cert: fs.readFileSync( config.certificates().client ),
 };
 
 //Server application
