@@ -126,7 +126,7 @@ function Set-Config( $file, $key, $value )
 Write-Host $nl"Updating configuration..."
 Set-Config -file "$config\services.conf" -key "user_directory" -value $user_directory
 Set-Config -file "$config\services.conf" -key "qlik_sense_hostname" -value $qlik_sense_hostname
-Set-Config -file "$config\services.conf" -key "certificates_path" -value $certificates_path
+Set-Config -file "$config\services.conf" -key "certificates_path" -value `"$certificates_path`"
 Set-Config -file "$config\services.conf" -key "auth_port" -value $auth_port
 Set-Config -file "$config\services.conf" -key "client_id" -value $client_id
 Set-Config -file "$config\services.conf" -key "client_secret" -value $client_secret
