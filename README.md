@@ -47,6 +47,7 @@ Client Secret []: <Office 365 client secret>
 ```
 
 - ***port***: *the same used for the redirect URI at the Microsoft Application Registration Portal*
+- ***certificates folder***: certificates folder should contain ***client.pem***, ***client_key.pem*** and ***root.pem*** files.
 
 
 The script also creates a Virtual Proxy in Qlik Sense. Please verify configuration is as follows:
