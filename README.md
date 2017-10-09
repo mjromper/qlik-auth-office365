@@ -37,23 +37,28 @@ This will download and execute the setup script.
 When the downloading and installation of the modules including their dependencies are finished you will be prompted for some configuration options.
 
 ```
-Enter name of user directory [OFFICE365]:
-Enter port [5555]:
-Application ID []: enter your **client_id** value
-Client Secret []: enter your **client_secret** value
+Enter name of user directory (prefix) [office365]: <any single word is valid, default 'office365'>
+Enter QS hostname []: <ie: yourqliksenseserver.domain.com, just hostname, not comple url>
+Enter certificates folder path: [C:/ProgramData/Qlik/Sense/Repository/Exported Certificates/.Local Certificates]: <certificates location, so this module uses https>
+Enter port [5555]: <port this module runs on>
+Application ID []: <Office 365 application id>
+Client Secret []: <Office 365 client secret>
+
 ```
 
 - ***port***: *the same used for the redirect URI at the Microsoft Application Registration Portal*
-- ***directory***: *give a name for the Directory in Qlik Sense where you users will be authorized*
 
-When the script is finished you need to restart Qlik ServiceDispacher service.
+
+The script also creates a Virtual Proxy in Qlik Sense. Please verify configuration is as follows:
+
 
 ### Qlik Sense Virtual Proxy
-1. Create a new Virtual Proxy in QMC
+1. Virtual Proxy in QMC
 2. For Authentication module redirect URI enter the same ***servername*** and ***port*** you used for Authorized redirect URI in the Application Registration Portal.
 
 ![](https://github.com/mjromper/qlik-auth-office365/raw/master/docs/images/virtual-proxy.png)
-3. Finish the Virtual Proxy configuration. The proxy will restart and the new module should be good to go!. Open the url https://your_sense_server_host/o365 (where 'o365' is the prefix of virtual proxy)
+
+Open the url https://(your_sense_server_host_name)/(directory)/hub
 
 ### Todos
  - Write Tests
