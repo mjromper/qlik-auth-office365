@@ -15,9 +15,9 @@ var config = {
     /**
      * Sense Server config
      */
-    senseHost: 'qmi-qs-latch',
+    senseHost: 'qmi-qs-ticket',
     prefix: 'office365',
-    cookieName: 'X-Qlik-Session-o365', // Cookie name assigned for virtual proxy
+    cookieName: 'X-Qlik-Session-office365', // Cookie name assigned for virtual proxy
 
     /**
     * Office365 App details

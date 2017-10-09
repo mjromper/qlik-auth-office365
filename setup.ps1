@@ -104,7 +104,7 @@ client_secret=
 Write-Host $nl"CONFIGURE MODULE"
 Write-Host $nl"To make changes to the configuration in the future just re-run this script."
 
-$user_directory=Read-Default $nl"Enter name of user directory (prefix)" "OFFICE365"
+$user_directory=Read-Default $nl"Enter name of user directory (prefix)" "office365"
 $qlik_sense_hostname=Read-Default $nl"Enter QS hostname (just hostname, not entire URL)" $qlik_sense_hostname
 $certificates_path=Read-Default $nl"Enter certificates folder path:" "C:/ProgramData/Qlik/Sense/Repository/Exported Certificates/.Local Certificates"
 $auth_port=Read-Default $nl"Enter port" "5555"
